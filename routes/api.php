@@ -15,6 +15,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/register',[\App\Http\Controllers\UserController::class,'register']);
+Route::post('/login',[\App\Http\Controllers\UserController::class,'login']);
+
+Route::middleware('jwt')->group(function () {
+    Route::get('/dashboard', [\App\Http\Controllers\UserController::class,'dashboard']);
+});
+
+
+
+
+
+
+
+
+
+
+
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});

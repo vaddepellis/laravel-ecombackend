@@ -5,13 +5,45 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
 
 class UserController extends Controller
 {
+    public function login(Request $request)
+    {
+        // Validation
+        $validatedData = $request->validate([
+            'email' => 'required|email|max:100',
+            'password' => 'required|min:8|max:100',
+        ]);
+
+        try {
+            // Find user by email
+            $user = User::where('email', $validatedData['email'])->first();
+
+            $verify = Hash::check($validatedData['password'], $user->password);
+            $data = [
+                'username'=>$user->username,
+                'email'=>$user->email
+            ];
+            if($verify){
+                $jwt = JWT::encode($data, env('JWT_KEY'), 'HS256');
+                return response()->json(['message'=>'login success','token'=>$jwt],200);
+            }
+            return response()->json(['message' => 'Invalid credentials'], 401);
+        } catch (\Exception $e) {
+            // Handle exceptions and return an error response
+            return response(['error' => $e->getMessage()]);
+        }
+    }
+    public function dashboard(){
+        return response()->json(['message'=>'dashboard'],200);
+    }
     public function register(Request $request){
         $validate = $request->validate([
             'username'=>'required|max:100',
-            'email'=>'required|max:100|unique:users,email',
+            'email'=>'required|min:8|max:100|unique:users,email',
             'password'=>'required|max:50',
             'mobile'=>'required',
             'country'=>'required',
