@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class UserController extends Controller
 {
@@ -37,9 +36,7 @@ class UserController extends Controller
             return response(['error' => $e->getMessage()]);
         }
     }
-    public function dashboard(){
-        return response()->json(['message'=>'dashboard'],200);
-    }
+
     public function register(Request $request){
         $validate = $request->validate([
             'username'=>'required|max:100',
