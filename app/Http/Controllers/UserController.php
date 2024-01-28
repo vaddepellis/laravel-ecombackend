@@ -9,6 +9,9 @@ use Firebase\JWT\JWT;
 
 class UserController extends Controller
 {
+    public function index(){
+        return response()->json(['message'=>'welcome to api dashboard'],200);
+    }
     public function login(Request $request)
     {
         // Validation
@@ -20,7 +23,6 @@ class UserController extends Controller
         try {
             // Find user by email
             $user = User::where('email', $validatedData['email'])->first();
-
             $verify = Hash::check($validatedData['password'], $user->password);
             $data = [
                 'username'=>$user->username,

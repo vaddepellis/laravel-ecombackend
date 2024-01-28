@@ -21,12 +21,12 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
-        \App\Http\Middleware\JwtMiddleware::class
+
     ];
 
     /**
      * The application's route middleware groups.
-     *
+     *\App\Http\Middleware\JwtMiddleware::class
      * @var array<string, array<int, class-string|string>>
      */
     protected $middlewareGroups = [
@@ -43,8 +43,6 @@ class Kernel extends HttpKernel
             // \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            'jwt' => \App\Http\Middleware\JwtMiddleware::class,
-
         ],
 
     ];
